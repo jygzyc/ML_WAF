@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>upload webshell</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.webshells(multiple="multiple") }}
+    {% for error in form.webshells.errors %}
+    <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+    {{ form.submit }}
+</form>
+{% if success %}
+<br>
+<p>Upload Success!</p>
+{% endif %}
+{% for name in filename %}
+<br>
+<p>{{ name }}</p>
+{% endfor %}
+{% endblock %}
