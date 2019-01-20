@@ -31,7 +31,9 @@ transformer_pkl = PKL_DIR + "transformer.pkl"
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Th1s_is_SeCret'
 app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/static/'
-
+###
+#The setup of the flask.
+###
 
 photos = UploadSet('photos', WEBSHELL)
 configure_uploads(app, photos)
@@ -39,6 +41,9 @@ patch_request_class(app)  # set maximum file size, default is 16MB
 
 
 class UploadForm(FlaskForm):
+    '''
+    This class define the form of uploading.
+    '''
     photo = FileField(validators=[FileAllowed(photos, u'WebShell Only!'), FileRequired(u'Choose a file!')])
     submit = SubmitField(u'Upload')
 
@@ -51,6 +56,9 @@ def load_file(file_path):
             t += line
     return t
 #%%
+###
+#This function is used to load file of a new file.
+###
 
 def check(clf, cv, transformer, path, filename):
     file_full_path = path + filename
@@ -64,7 +72,9 @@ def check(clf, cv, transformer, path, filename):
         return True
     else:
         return False
-
+###
+#Th1s function is used to judge if the file is a webshell.
+###
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -84,7 +94,9 @@ def upload_file():
     else:
         success = False
     return render_template('index.html', form=form, success=success, websh=websh)
-
+###
+#This route function handles the upload conditons.
+###
 
 @app.route('/manage')
 def manage_file():
@@ -112,6 +124,9 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html', title="Internal Error"), 500
-    
+###
+#The two functions above handle the server expections.
+###
+
 if __name__ == '__main__':
     app.run(debug=True,port='8900')
